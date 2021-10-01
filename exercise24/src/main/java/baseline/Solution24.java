@@ -73,7 +73,7 @@ public class Solution24 {
             System.out.printf("\"%s\" and \"%s\" are not anagrams.", word1 ,word2);
         }
 
-        //Call anagram checker method
+        //Call anagram checker method if lengths are equal
         else if(isAnagram(word1, word2) == false){
 
             //display result of anagram checker
