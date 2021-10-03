@@ -9,52 +9,118 @@ import java.util.Scanner;
 
 public class Solution25 {
 
-    //define password strengths
-    public static final int VERYWEAK  = 1;
-    public static final int WEAK = 2;
-    public static final int STRONG = 3;
-    public static final int VERYSTRONG = 4;
+    public static final Scanner in = new Scanner(System.in);
 
     //determine if password is at least of 8 characters
     public static boolean lengthChecker(String password){
 
-
-        return false;
+        return password.length() >= 8;
     }
 
-    //first calls lengthChecker, if true scans all string elements for only numbers
-    public static int numberChecker(String password){
+    //scans all string elements for only numbers
+    public static boolean numberChecker(String password){
 
-        return VERYWEAK;
+        char[] numbArray = password.toCharArray();
+        int length = password.length();
+
+        for(int i = 0; i < length; i++){
+
+            if(!Character.isDigit(numbArray[i])){
+
+                return false;
+            }
+        }
+        return true;
     }
 
-    //first calls lengthChecker, if true scans all string elements for only letter
-    public static int letterChecker(String password){
+    //scans all string elements for only letters
+    public static boolean letterChecker(String password){
 
-        return WEAK;
+        char[] numbArray = password.toCharArray();
+        int length = password.length();
+
+        for(int i = 0; i < length; i++){
+
+            if(!Character.isLetter(numbArray[i])){
+
+                return false;
+            }
+        }
+        return true;
     }
 
     //call both lengthChecker and numChecker
-    public static int letterAndNumberChecker(String password){
+    public static boolean letterAndNumberChecker(String password){
 
-        return STRONG;
+        char[] numbArray = password.toCharArray();
+        int length = password.length();
+
+        for(int i = 0; i < length; i++){
+
+            if(!(numbArray[i] >= 'A' && numbArray[i] <= 'Z')
+                    && !(numbArray[i] >= 'a' && numbArray[i] <= 'z')
+                    && !(numbArray[i] >= '0' && numbArray[i] <= '9'))
+                return  false;
+        }
+        return true;
     }
+
 
     //check presence of any special character
-    public static int specialChecker(String password){
+    public static boolean specialChecker(String password){
 
-        return VERYSTRONG;
+        char[] numbArray = password.toCharArray();
+        String specialArray = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
+        int length = password.length();
+
+        for(int i = 0; i < length; i++){
+
+            if(specialArray.contains(Character.toString(numbArray[i]))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static  void outputPrompt(String password, String strength){
+
+        System.out.println("The password " +password + strength + " password");
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        //initialize password strength
+        //initialize password strength and length
+        String strength = " is an unknown strength";
 
         //scan user input
+        String password = in.nextLine();
 
         //call prototype function in strength order
+        if (!lengthChecker(password)) {
 
+            if (numberChecker(password)) {
+
+                strength = " is a very weak";
+
+            }
+
+            else if (letterChecker(password)){
+
+                strength = " is a weak";
+            }
+        }
+        else{
+
+            if(letterAndNumberChecker(password)){
+
+                strength = " is a strong";
+            }
+            else if(specialChecker(password)){
+                strength = " is a very strong";
+            }
+        }
         //output result
+        outputPrompt(password, strength);
     }
 }
